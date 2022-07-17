@@ -11,3 +11,6 @@ class Producto {
     }
 }
 
+export {
+    Producto
+}
