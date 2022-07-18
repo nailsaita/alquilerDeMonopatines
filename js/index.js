@@ -5,11 +5,13 @@ const listadoCarrito = document.getElementById ("listadoCarrito")
 
 cargarMonopatines ()
 listarMonopatines ()
-agregarAlCarrito ()
-removerDelCarrito ()
-seleccionarProducto ()
+/*agregarAlCarrito ()*/
+agregarEventoAgregarAlCarrito ()
+/*removerDelCarrito ()*/
 calcularSubtotal()
 finalizarPedido()
+listarMonopatinesCarrito()
+agregarEventoremoverDelCarrito ()
 
 /* funciones iniciales de carga */
 
@@ -19,7 +21,8 @@ function cargarMonopatines() {
     productos.push(new Producto(6874, "Monop3", 2000, "./assets/img/monop33.jpg"));
 }
 
-function listarMonopatines() { 
+function listarMonopatines() {
+ 
     let bloqueProductos = "<tr>"
     productos.forEach( (producto) => {
         console.log(producto.nombre)
@@ -39,32 +42,39 @@ function listarMonopatines() {
         bloqueProductos +=columna
     })
     bloqueProductos +="</tr>"
-    document.querySelector("tbody").innerHTML = bloqueProductos
+    document.querySelector("#catalogoMonopatines").innerHTML = bloqueProductos
 }
 
-function seleccionarProducto(productoId) {
-    let posicion = $("#customer").offset().top;
-    $("html, body").animate({ scrollTop: posicion }, 1000);
-    $("#monopatines").val(productoId).change();
-  }
 
-
-function agregarAlCarrito (){
+function agregarEventoAgregarAlCarrito (){
     productos.forEach ((producto) => {
         let divisionMonopatin = document.getElementById (`${producto.id}`)
         divisionMonopatin.onclick = (e)=> {
             let decision = confirm (`¿Querés agregar el producto al carrito? id=${producto.id}`)
-            alert(`La decisión es ${decision}`)
+            //alert(`La decisión es ${decision}`)
+            if (decision) {
+              productosCarrito.push(producto)
+              listarMonopatinesCarrito()
+              agregarEventoremoverDelCarrito ()
+              alert ("Agregué el producto al carrito")
+            } 
         } 
     });
 }
-function removerDelCarrito () {
-    productos.forEach ((producto) => {
-        let divisionMonopatin = document.getElementById (`${producto.id}`)
+
+function agregarEventoremoverDelCarrito () {
+    productosCarrito.forEach ((producto) => {
+        let divisionMonopatin = document.getElementById (`eliminar-${producto.id}`)
         divisionMonopatin.onclick = (e) => {
-            let decision = confirm ("¿Querés eliminar este producto del carrito?` id=${producto.nombre}")
+            let decision = confirm (`¿Querés eliminar este producto del carrito? nombre=${producto.nombre}`)
             alert(`La decisión es ${decision}`)
+            if (decision){
+              const productosRestantes = productosCarrito.filter (eliminar => eliminar.id != producto.id)
+              productosCarrito = productosRestantes
+              listarMonopatinesCarrito()
+            }
         }
+
     });
 }
 
@@ -102,6 +112,29 @@ function calcularSubtotal() {
   }
 
   
-
+  function listarMonopatinesCarrito() {
+ 
+    let bloqueProductos = "<tr>"
+    productosCarrito.forEach( (producto) => {
+        console.log(producto.nombre)
+        //const fila = `<tr>
+        //            <td> ${producto.id}</td>
+        //            <td> ${producto.nombre}</td>
+        //            <td> ${producto.precio}</td>
+        //            </tr>`
+        const columna = `<td> <div class="coder-pet__content">
+        <div class="coder-pet__content-img">
+            <img src="${producto.direccionDeImagen}" alt="monopp">
+        </div>
+        <h3 class="coder-pet__content-title">${producto.nombre}</h3>
+        <p>Apto para principiantes ❤</p>
+        <small> $${producto.precio} x media hora</small>
+        <button id="eliminar-${producto.id}"> Eliminar </button>
+        </div></td>`
+        bloqueProductos +=columna
+    })
+    bloqueProductos +="</tr>"
+    document.querySelector("#carritoMonopatines").innerHTML = bloqueProductos
+}
 
 
