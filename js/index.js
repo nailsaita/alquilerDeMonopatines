@@ -1,5 +1,5 @@
 import { Producto } from "./class_producto.js";
-import { productos, productosCarrito } from "./variables.js"
+import { productos, productosCarrito, calculoTotalCarrito } from "./variables.js"
 
 const listadoCarrito = document.getElementById ("listadoCarrito")
 
@@ -12,6 +12,7 @@ calcularSubtotal()
 finalizarPedido()
 listarMonopatinesCarrito()
 agregarEventoremoverDelCarrito ()
+agregarEventoCantidadHorasCarrito ()
 
 /* funciones iniciales de carga */
 
@@ -56,6 +57,7 @@ function agregarEventoAgregarAlCarrito (){
               productosCarrito.push(producto)
               listarMonopatinesCarrito()
               agregarEventoremoverDelCarrito ()
+              agregarEventoCantidadHorasCarrito ()
               alert ("Agregué el producto al carrito")
             } 
         } 
@@ -70,12 +72,26 @@ function agregarEventoremoverDelCarrito () {
             alert(`La decisión es ${decision}`)
             if (decision){
               const productosRestantes = productosCarrito.filter (eliminar => eliminar.id != producto.id)
-              productosCarrito = productosRestantes
+              
+              vaciarCarrito();
+
+              productosRestantes.forEach(producto => {
+                productosCarrito.push(producto);
+              });
+
               listarMonopatinesCarrito()
+              agregarEventoremoverDelCarrito ()
+              agregarEventoCantidadHorasCarrito ()
             }
         }
 
     });
+}
+
+function vaciarCarrito() {
+  while(productosCarrito.length > 0) {
+    productosCarrito.pop();
+  }
 }
 
 function calcularSubtotal() {
@@ -91,7 +107,7 @@ function calcularSubtotal() {
     }
   }
 
-  function finalizarPedido() {
+  /*function finalizarPedido() {
     if ($("#name").val().trim() === "") {
       $("#error-cliente").html("Debe ingresar un nombre");
       return;
@@ -109,7 +125,7 @@ function calcularSubtotal() {
     $("#detalle-pedido").html(mensaje);
     $("#modal-pedido").modal();
     $("#form-cliente").html("");
-  }
+  }*/
 
   
   function listarMonopatinesCarrito() {
@@ -129,6 +145,7 @@ function calcularSubtotal() {
         <h3 class="coder-pet__content-title">${producto.nombre}</h3>
         <p>Apto para principiantes ❤</p>
         <small> $${producto.precio} x media hora</small>
+        <input id="cantidadHoras-${producto.id}" type="number" min="0" max="100"> </input>
         <button id="eliminar-${producto.id}"> Eliminar </button>
         </div></td>`
         bloqueProductos +=columna
@@ -137,4 +154,11 @@ function calcularSubtotal() {
     document.querySelector("#carritoMonopatines").innerHTML = bloqueProductos
 }
 
-
+function agregarEventoCantidadHorasCarrito () {
+    productosCarrito.forEach ((producto) => {
+        let spinnerHoras = document.getElementById (`cantidadHoras-${producto.id}`);
+        spinnerHoras.addEventListener ("change",()=>{
+          alert(spinnerHoras.value)
+        })
+    })
+}

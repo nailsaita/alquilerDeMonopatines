@@ -1,5 +1,6 @@
 let productos = [  ] 
-let productosCarrito = [] 
+let productosCarrito = []
+let calculoTotalCarrito = 0
 export {
-    productos, productosCarrito
+    productos, productosCarrito, calculoTotalCarrito
 }
