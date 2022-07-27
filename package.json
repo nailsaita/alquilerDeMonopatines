@@ -1,5 +1,5 @@
 {
-  "name": "pet-land",
+  "name": "alquiler-monop",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
 "watch-css": "nodemon -e scss -x \"npm run build-css\""
 
   },
-  "author": "",
+  "author": "Nail Saita",
   "license": "ISC",
   "devDependencies": {
     "node-sass": "^7.0.1",

@@ -14,10 +14,10 @@ header {
   align-items: center; }
   .hero__title {
     font-size: 4rem;
-    color: #fff; }
+    color: rgb(250, 250, 250);}
   .hero .parrafo-principal {
     font-size: 2rem;
-    color: #eee; }
+    color: rgb(250, 250, 250); }
 
 /*CAROUSEL*/
 .carousel-item {
