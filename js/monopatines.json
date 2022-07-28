@@ -1,0 +1,20 @@
+[ 
+    {
+        "id": 6545,
+        "nombre": "Monop1",
+        "precio": 1500,
+        "direccionDeImagen":  "./assets/img/monop22.jfif"
+    },
+    {
+        "id": 4568,
+        "nombre": "Monop2",
+        "precio": 2200,
+        "direccionDeImagen":  "./assets/img/monop11.jfif"
+    },
+    {
+        "id": 6874,
+        "nombre": "Monop3",
+        "precio": 2000,
+        "direccionDeImagen":  "./assets/img/monop33.jpg"
+    }
+]

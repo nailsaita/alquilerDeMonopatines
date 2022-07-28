@@ -4,7 +4,8 @@ import {
 import {
   productos,
   productosCarrito,
-  calculoTotalCarrito
+  calculoTotalCarrito,
+  URL_PRODUCTOS
 } from "./variables.js"
 
 const listadoCarrito = document.getElementById("listadoCarrito")
@@ -16,7 +17,7 @@ agregarEventoAgregarAlCarrito()
 /*removerDelCarrito ()*/
 actualizarTotal()
 //calcularSubtotal()
-finalizarPedido()
+//finalizarPedido()
 listarMonopatinesCarrito()
 agregarEventoremoverDelCarrito()
 agregarEventoCantidadHorasCarrito()
@@ -25,9 +26,32 @@ agregarEventoCantidadHorasCarrito()
 /* funciones iniciales de carga */
 
 function cargarMonopatines() {
+  /*
   productos.push(new Producto(6545, "Monop1", 1500, "./assets/img/monop22.jfif"));
   productos.push(new Producto(4568, "Monop2", 2200, "./assets/img/monop11.jfif"));
-  productos.push(new Producto(6874, "Monop3", 2000, "./assets/img/monop33.jpg"));
+  productos.push(new Producto(6874, "Monop3", 2000, "./assets/img/monop33.jpg"));*/
+
+  /*
+    Se traen los monopatines con FETCH... la información está en el archivo monopatines.json
+  */
+  fetch(URL_PRODUCTOS)
+  .then((response) => response.json())
+  .then((data) => {
+    for(let productoJson of data) {
+      let producto = new Producto(
+        productoJson["id"], 
+        productoJson["nombre"], 
+        productoJson["precio"],
+        productoJson["direccionDeImagen"]
+      );
+    productos.push(producto);
+    }
+  })
+  .catch((error) => {alert(error)})
+  .finally((e) => {
+    listarMonopatines();
+    agregarEventoAgregarAlCarrito();
+  });
 }
 
 function listarMonopatines() {
@@ -59,7 +83,7 @@ function agregarEventoAgregarAlCarrito() {
   productos.forEach((producto) => {
     let divisionMonopatin = document.getElementById(`${producto.id}`)
     divisionMonopatin.onclick = (e) => {
-      let decision = confirm(`¿Querés agregar el producto al carrito? id=${producto.id}`)
+      let decision = confirm(`¿Querés agregar el producto al carrito? id=${producto.nombre}`)
       //alert(`La decisión es ${decision}`)
       if (decision) {
         let productoEstaEnCarritoCompras = monopatinYaEstaEnCarrito(producto);
@@ -188,7 +212,7 @@ function actualizarTotal() {
   });
 
   let divCalculoSubtotal = document.getElementById("subtotalCarrito");
-  divCalculoSubtotal.innerHTML = `<p>Subtotal: $ <bold>${calcularSubtotal}</bold></p>`;
+  divCalculoSubtotal.innerHTML = `<p class= "coder-pet">Subtotal: $ <bold>${calcularSubtotal}</bold></p>`;
 }
 
 /**
@@ -207,6 +231,7 @@ function monopatinYaEstaEnCarrito(productoAgregar) {
 };
 
 /*ver si se envían bien los datos por POST a Ajax usando el FORM DATA*/
+/*
 const data = new FormData(dociment.getElementById("contact"))
 fetch(`../post.php`, {
   method: `POST`,
@@ -224,3 +249,5 @@ fetch(`../post.php`, {
   })
   .catch(function(err)
   {console.log(err)});
+
+  */
